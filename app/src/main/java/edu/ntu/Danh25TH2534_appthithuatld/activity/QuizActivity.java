@@ -55,7 +55,31 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             //Kiểm tra đáp án người dùng chọn
+            int answerOrder = 1;        //lựa chọn mặc định A
+            if (selectedId == R.id.rbOptionB) {
+                answerOrder = 2;
+            }
+            else if (selectedId == R.id.rbOptionC) {
+                answerOrder = 3;
+            } else if (selectedId == R.id.rbOptionD) {
+                answerOrder = 4;
+            }
 
+            //cộng điểm khi chọn đúng
+            if (answerOrder == questionList.get(currentQuestionIndex).correctOption) {
+                score++;
+            }
+
+            //chuyển sang câu tiếp
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionList.size()) {
+                rgOptions.clearCheck();     //Xóa lựa chọn cũ
+                displayQuestion(currentQuestionIndex);
+            } else {
+                //Kết thúc bài thi và hiển thị kết quả
+                Toast.makeText(QuizActivity.this,"Bạn đã hoàn thành bài kiểm tra với điểm số: " + score +"/" + questionList.size(), Toast.LENGTH_LONG).show();
+                finish(); //Quay lại màn hình trước hoăc chuyển qua màn hình kết quả
+            }
         });
     }
 
