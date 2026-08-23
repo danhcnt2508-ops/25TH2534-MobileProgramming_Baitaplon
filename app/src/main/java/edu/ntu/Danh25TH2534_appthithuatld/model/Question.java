@@ -24,10 +24,9 @@ public class Question {
     }
 
     //tạo Constructor đầy đủ tham số
-    public Question(int id, int categoryID, String questionText, String optionA,
+    public Question(int categoryID, String questionText, String optionA,
                     String optionB, String optionC, String optionD, int correctOption,
                     String explanation, boolean isBookmarked) {
-        this.id = id;
         this.categoryID = categoryID;
         this.questionText = questionText;
         this.optionA = optionA;
