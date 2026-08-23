@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "categories")
 public class Category {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public int id;                  //id khóa chính, tự tăng
     public String name;             //tên chủ đề
     public String description;      //mô tả ngắn gọn về chủ đề
 
