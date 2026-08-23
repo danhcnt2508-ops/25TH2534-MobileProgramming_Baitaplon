@@ -6,18 +6,21 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Category;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
+import edu.ntu.Danh25TH2534_appthithuatld.model.ExamHistory;
 
 @Database(entities = {Question.class, Category.class}, version = 1)
 public abstract class QuizDatabase extends RoomDatabase {
 
     private static QuizDatabase instance;
     public abstract QuestionDao questionDao();
+    public abstract CategoryDao categoryDao(); //bổ sung sau khi tạo CategoryDao.java
     public static synchronized QuizDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             QuizDatabase.class, "antoan_laodong_db")
                     .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()   //ở đây làm nhanh để thử nghiệm..Nên dùng Thread/AsyncTask cho dự án lớn
+                    .allowMainThreadQueries()   //ở đây làm nhanh để thử nghiệm khoảng 50 câu h..
+                                                // Nên dùng Thread/AsyncTask khi số lượng câu hỏi lớn
                     .build();
         }
         return instance;
