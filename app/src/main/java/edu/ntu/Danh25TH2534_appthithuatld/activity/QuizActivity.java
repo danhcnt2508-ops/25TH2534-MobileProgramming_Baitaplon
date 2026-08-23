@@ -5,17 +5,16 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.List;
-
 import edu.ntu.Danh25TH2534_appthithuatld.R;
+import edu.ntu.Danh25TH2534_appthithuatld.database.QuizDatabase;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
 
 public class QuizActivity extends AppCompatActivity {
     private TextView tvQuestionText;
-    private RadioGroup radioGroup;
+    private RadioGroup rgOptions;
     private RadioButton rbA, rbB, rbC, rbD;
     private Button btnNext;
     private List<Question> questionList;
@@ -26,6 +25,47 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        
+
+        //1. Ánh xạ các thành phần trên giao diện
+        tvQuestionText = findViewById(R.id.tvQuestionText);
+        rgOptions = findViewById(R.id.rgOptions);
+        rbA = findViewById(R.id.rbOptionA);
+        rbB = findViewById(R.id.rbOptionB);
+        rbC = findViewById(R.id.rbOptionC);
+        rbD = findViewById(R.id.rbOptionD);
+        btnNext = findViewById(R.id.btnNext);
+
+        //2. Lấy dữ liệu từ Room Database (vd lấy ds thi thử ngẫn nhiên)
+        QuizDatabase db = QuizDatabase.getInstance(this);
+        questionList = db.questionDao().getRandomExamQuestions();
+
+        if (questionList != null && questionList.isEmpty()) {
+            displayQuestion(currentQuestionIndex);
+        } else {
+            Toast.makeText(this, "Ngân hàng câu hỏi trống! hây thêm câu hỏi vào trước.", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        //3. Xử lý sự kiện khi bấm vào nút "Câu tiếp theo"
+        btnNext.setOnClickListener(v -> {
+            int selectedId = rgOptions.getCheckedRadioButtonId();
+            if (selectedId == -1) {
+                Toast.makeText(QuizActivity.this, "Vui lòng chọn 1 đáp án", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            //Kiểm tra đáp án người dùng chọn
+
+        });
+    }
+
+    // Hàm hiển thị câu hỏi hiện tại lên giao diện
+    private void displayQuestion(int index) {
+        Question q = questionList.get(index);
+        tvQuestionText.setText("Câu " + (index + 1) + ": " + q.questionText);
+        rbA.setText(q.optionA);
+        rbB.setText(q.optionB);
+        rbC.setText(q.optionC);
+        rbD.setText(q.optionD);
     }
 }
