@@ -8,13 +8,15 @@ import edu.ntu.Danh25TH2534_appthithuatld.model.Category;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
 import edu.ntu.Danh25TH2534_appthithuatld.model.ExamHistory;
 
-@Database(entities = {Question.class, Category.class}, version = 1)
+@Database(entities = {Question.class, Category.class, ExamHistory.class}, version = 1)
 public abstract class QuizDatabase extends RoomDatabase {
 
+    // Biến static lưu trữ instance duy nhất của database
     private static QuizDatabase instance;
     public abstract QuestionDao questionDao();
     public abstract CategoryDao categoryDao(); //bổ sung sau khi tạo CategoryDao.java
     public static synchronized QuizDatabase getInstance(Context context) {
+        // Nếu database chưa từng được khởi tạo, tiến hành tạo mới
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             QuizDatabase.class, "antoan_laodong_db")
