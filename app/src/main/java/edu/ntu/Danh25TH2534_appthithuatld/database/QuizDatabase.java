@@ -8,6 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,14 +46,15 @@ public abstract class QuizDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
 
-            //chạy ngầm việc chèn dữ liệu ban đầu để tránh crash
-            databaseWriteExecutor.execute(() -> {
-                CategoryDao catDao = instance.categoryDao();
-                QuestionDao qDao = instance.questionDao();
+            // Chạy luồng nền (Background Thread) để thêm dữ liệu mẫu tránh làm treo máy
+            Executors.newSingleThreadExecutor().execute(() -> {
+                CategoryDao categoryDao = instance.categoryDao();
+                QuestionDao questionDao = instance.questionDao();
 
-                // Thêm dữ liệu mẫu tại đây nếu muốn, hoặc gọi hàm đọc từ file
-                // catDao.insertCategory(new Category(1, "An toàn điện"));
-                // qDao.insertQuestion(new Question(1, "Câu hỏi mẫu?", "A", "B", "C", "D", "A", 1));
+                //Vòng lặp nạp toàn bộ câu hỏi từ DataRepository vào SQLite
+                for (Question q : DataRepository.getDummyQuestions()) {
+                    questionDao.insertQuestion(q);
+                }
             });
         }
     };
