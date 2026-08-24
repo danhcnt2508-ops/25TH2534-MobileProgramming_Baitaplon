@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#810347F4"
-    tools:context=".MainActivity" />
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#F5F7FA"
+    tools:context=".MainActivity">
+
+    <!--thêm logo Trường-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@mipmap/bannerlogo"
+        />
+
+    <!--thêm tên môn học An toàn lao động-->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="MÔN HỌC AN TOÀN LAO ĐỘNG"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#004D40"
+        />
+
+    <!--tên ứng dụng-->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Ứng dụng luyện tập trắc nghiệm"
+        android:textAlignment="center"
+        android:textColor="#0225F8"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!--Nút vào học, luyện tập-->
+    <Button
+        android:id="@+id/btnStartQuiz"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00796B"
+        android:text="Bắt đầu thi thử"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+
+        app:cornerRadius="12dp"
+        app:icon="@android:drawable/ic_media_play" />
+    <!-- Nút xem lịch sử làm bài-->
+    <Button
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00796B"
+        android:text="Lịch sử làm bài"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        app:icon="@android:drawable/ic_media_play" />
+        <!--style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+
+
+</LinearLayout>
