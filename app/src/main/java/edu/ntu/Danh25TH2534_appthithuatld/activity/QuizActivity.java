@@ -39,7 +39,7 @@ public class QuizActivity extends AppCompatActivity {
         QuizDatabase db = QuizDatabase.getInstance(this);
         questionList = db.questionDao().getRandomExamQuestions();
 
-        if (questionList != null && questionList.isEmpty()) {
+        if (questionList != null && !questionList.isEmpty()) {
             displayQuestion(currentQuestionIndex);
         } else {
             Toast.makeText(this, "Ngân hàng câu hỏi trống! hây thêm câu hỏi vào trước.", Toast.LENGTH_LONG).show();
