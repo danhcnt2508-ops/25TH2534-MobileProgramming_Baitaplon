@@ -65,8 +65,8 @@ public class QuizActivity extends AppCompatActivity {
                 answerOrder = 4;
             }
 
-            //cộng điểm khi chọn đúng
-            if (answerOrder == questionList.get(currentQuestionIndex).correctOption) {
+            //cộng điểm khi chọn đúng, chỉnh: Sử dụng hàm getter .getCorrectOption()
+            if (answerOrder == questionList.get(currentQuestionIndex).getCorrectOption()) {
                 score++;
             }
 
@@ -86,10 +86,11 @@ public class QuizActivity extends AppCompatActivity {
     // Hàm hiển thị câu hỏi hiện tại lên giao diện
     private void displayQuestion(int index) {
         Question q = questionList.get(index);
-        tvQuestionText.setText("Câu " + (index + 1) + ": " + q.questionText);
-        rbA.setText(q.optionA);
-        rbB.setText(q.optionB);
-        rbC.setText(q.optionC);
-        rbD.setText(q.optionD);
+        //Sử dụng các hàm getter công khai (.getQuestionText, .getOptionA,...) để lấy dữ liệu an toàn
+        tvQuestionText.setText("Câu " + (index + 1) + ": " + q.getQuestionText());
+        rbA.setText(q.getOptionA());
+        rbB.setText(q.getOptionB());
+        rbC.setText(q.getOptionC());
+        rbD.setText(q.getOptionD());
     }
 }

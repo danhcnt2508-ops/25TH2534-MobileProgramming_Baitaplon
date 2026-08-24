@@ -21,7 +21,7 @@ public interface QuestionDao {
     List<Question> getQuestionsByCategory(int catId);
 
     //lấy ngẫu nhiên 20 câu hỏi để làm đề thi thử
-    @Query("SELECT * FROM questions ORDER BY RANDOM() LIMIT 20")
+    @Query("SELECT * FROM questions ORDER BY RANDOM() limit 15")
     List<Question> getRandomExamQuestions();
 
     //Bổ sung: xóa toàn bộ câu hỏi (dùng khi cập nhật lại ngân hàng câu hỏi)
