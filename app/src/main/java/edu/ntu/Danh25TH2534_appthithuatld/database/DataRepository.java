@@ -198,7 +198,13 @@ public class DataRepository {
                 "C. Vệ sinh lao động chỉ liên quan đến việc lau dọn vệ sinh máy móc thiết bị sau giờ làm việc.",
                 "D. An toàn lao động chỉ áp dụng cho ngành xây dựng, Vệ sinh lao động áp dụng cho ngành y tế.",
                 2, "Một bên chống tai nạn tức thời nguy hiểm, một bên chống độc hại tích tụ lâu dài.", false)); // Đáp án: B
-
+        questions.add(new Question(catID,
+                "Bản chất hóa học của sự cháy là gì?",
+                "A. Phản ứng phân hủy cơ học dưới tác dụng của áp suất.",
+                "B. Phản ứng oxy hóa hóa học tốc độ cao có tỏa nhiệt và phát sáng.",
+                "C. Quá trình bay hơi tự nhiên của các dung môi hữu cơ.",
+                "D. Hiện tượng biến đổi vật lý của chất khí khi gặp lạnh.",
+                2, "Nêu được bản chất của sự cháy", false));
         return questions;
     }
 

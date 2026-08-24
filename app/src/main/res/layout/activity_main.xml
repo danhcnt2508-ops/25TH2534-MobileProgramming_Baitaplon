@@ -16,7 +16,7 @@
         android:id="@+id/imageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         app:srcCompat="@mipmap/bannerlogo"
         />
 
@@ -25,12 +25,11 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="MÔN HỌC AN TOÀN LAO ĐỘNG"
         android:layout_marginTop="16dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:text="MÔN HỌC AN TOÀN LAO ĐỘNG"
         android:textColor="#004D40"
-        />
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <!--tên ứng dụng-->
     <TextView

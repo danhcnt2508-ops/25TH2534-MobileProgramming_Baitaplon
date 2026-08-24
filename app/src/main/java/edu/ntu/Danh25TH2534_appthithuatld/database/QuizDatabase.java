@@ -32,8 +32,8 @@ public abstract class QuizDatabase extends RoomDatabase {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             QuizDatabase.class, "antoan_laodong_db")
                     .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()   //ở đây làm nhanh để thử nghiệm khoảng 50 câu h..
-                                                // Nên dùng Thread/AsyncTask khi số lượng câu hỏi lớn
+                    //.allowMainThreadQueries()  --- bỏ thử dòng code này
+                    // và thay đổi cách lấy câu hỏi trong QuizActivity.java
                     .addCallback(roomCallback) // BỔ SUNG: Tự động nạp data mẫu
                     .build();
         }

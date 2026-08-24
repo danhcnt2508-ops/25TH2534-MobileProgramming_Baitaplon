@@ -35,16 +35,25 @@ public class QuizActivity extends AppCompatActivity {
         rbD = findViewById(R.id.rbOptionD);
         btnNext = findViewById(R.id.btnNext);
 
-        //2. Lấy dữ liệu từ Room Database (vd lấy ds thi thử ngẫn nhiên)
+        //2. Lấy dữ liệu từ Room Database bằng luồng phụ
         QuizDatabase db = QuizDatabase.getInstance(this);
-        questionList = db.questionDao().getRandomExamQuestions();
 
-        if (questionList != null && !questionList.isEmpty()) {
-            displayQuestion(currentQuestionIndex);
-        } else {
-            Toast.makeText(this, "Ngân hàng câu hỏi trống! hây thêm câu hỏi vào trước.", Toast.LENGTH_LONG).show();
-            finish();
-        }
+            //đẩy lệnh đọc dữ liệu vào luồng phụ đã khai báo trong file QuizDatabase.java
+            QuizDatabase.databaseWriteExecutor.execute(() -> {
+
+                //đọc dữ liệu từ SQLite ngầm bên dưới
+                questionList = db.questionDao().getRandomExamQuestions();
+
+                //sau khi luồng phụ lấy xong dữ liệu, phải quay về luồng chính (Main Thread) để cập nhật giao diện UI
+                runOnUiThread(() -> {
+                    if (questionList != null && !questionList.isEmpty()) {
+                        displayQuestion(currentQuestionIndex);
+                    } else {
+                        Toast.makeText(this, "Ngân hàng câu hỏi trống! hây thêm câu hỏi vào trước.", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
+            });
 
         //3. Xử lý sự kiện khi bấm vào nút "Câu tiếp theo"
         btnNext.setOnClickListener(v -> {
