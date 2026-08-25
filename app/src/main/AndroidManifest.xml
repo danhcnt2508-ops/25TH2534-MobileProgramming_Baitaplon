@@ -28,6 +28,10 @@
         <activity
             android:name=".activity.QuizActivity"
             android:exported="false"/>
+
+        <activity android:name=".activity.HistoryActivity"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

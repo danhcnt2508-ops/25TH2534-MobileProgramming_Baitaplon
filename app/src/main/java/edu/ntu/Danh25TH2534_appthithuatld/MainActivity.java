@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import edu.ntu.Danh25TH2534_appthithuatld.activity.HistoryActivity;
 import edu.ntu.Danh25TH2534_appthithuatld.activity.QuizActivity;
 import edu.ntu.Danh25TH2534_appthithuatld.database.QuizDatabase;
 
@@ -40,10 +41,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //4. Xử lý sư kiện bấm nút "Lịch sử"
-        //thử thông báo đang cập nhật
+        //4. Xử lý sư kiện bấm nút "Xem Lịch sử thi"
+        //chuyển sang màn hình xem lịch sử thi
         btnHistory.setOnClickListener(v -> {
-            Toast.makeText(MainActivity.this, "Tính năng đang được cập nhật", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Tính năng đang được cập nhật", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivity(intent);
         });
     }
 }

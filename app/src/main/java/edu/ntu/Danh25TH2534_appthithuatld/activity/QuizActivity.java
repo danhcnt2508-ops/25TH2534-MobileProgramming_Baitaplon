@@ -9,11 +9,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import edu.ntu.Danh25TH2534_appthithuatld.R;
 import edu.ntu.Danh25TH2534_appthithuatld.database.QuizDatabase;
+import edu.ntu.Danh25TH2534_appthithuatld.model.ExamHistory;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
 
 public class QuizActivity extends AppCompatActivity {
@@ -28,6 +32,7 @@ public class QuizActivity extends AppCompatActivity {
     private long timeLeftInMillis = START_TIME_IN_MILLIS;
     private int currentQuestionIndex = 0;
     private int score = 0;
+    private QuizDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class QuizActivity extends AppCompatActivity {
         tvTimer = findViewById(R.id.tvTimer);
 
         //2. Lấy dữ liệu từ Room Database bằng luồng phụ
-        QuizDatabase db = QuizDatabase.getInstance(this);
+        db = QuizDatabase.getInstance(this);
 
             //đẩy lệnh đọc dữ liệu vào luồng phụ đã khai báo trong file QuizDatabase.java
             QuizDatabase.databaseWriteExecutor.execute(() -> {
@@ -69,7 +74,8 @@ public class QuizActivity extends AppCompatActivity {
         btnNext.setOnClickListener(v -> {
             int selectedId = rgOptions.getCheckedRadioButtonId();
             if (selectedId == -1) {
-                Toast.makeText(QuizActivity.this, "Vui lòng chọn 1 đáp án", Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuizActivity.this, "Vui lòng chọn 1 đáp án",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -97,8 +103,9 @@ public class QuizActivity extends AppCompatActivity {
 
             } else {
                 //Kết thúc bài thi và hiển thị kết quả
-                Toast.makeText(QuizActivity.this,"Bạn đã hoàn thành bài kiểm tra với điểm số: " + score +"/" + questionList.size(), Toast.LENGTH_LONG).show();
-                finish(); //Quay lại màn hình trước hoăc chuyển qua màn hình kết quả
+                //xóa tạm trước 3.1 Toast.makeText(QuizActivity.this,"Bạn đã hoàn thành bài kiểm tra với điểm số: " + score +"/" + questionList.size(), Toast.LENGTH_LONG).show();
+                //xóa tạm trước 3.1 finish(); //Quay lại màn hình trước hoăc chuyển qua màn hình kết quả
+                saveExamHistory();
             }
         });
     }
@@ -114,6 +121,7 @@ public class QuizActivity extends AppCompatActivity {
         rbD.setText(q.getOptionD());
     }
 
+    //Hàm xử lý đồng hồ đếm ngược
     private void startTimer() {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -148,7 +156,25 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void saveExamHistory() {
+        //3.1 lấy ngày giờ hiện tại của hệ thống để lưu vào lịch sử
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        String currentDateAndTime = sdf.format(new Date());
 
+        //3.2 tạo đối tượng ExamHistory mới với điểm số thực tế
+        ExamHistory history = new ExamHistory(score, questionList.size(), currentDateAndTime);
+
+        //3.3 dùng luồng phụ databaseWriteExecutor để lưu ngầm dữ liệu
+        QuizDatabase.databaseWriteExecutor.execute(() -> {
+            //ghi vào SQLite
+            db.examHistoryDao().insertHistory(history);
+            //trở về luồng chính để hiển thị kết quả và đóng màn hình
+            runOnUiThread(() -> {
+                Toast.makeText(QuizActivity.this,
+                        "Kết thúc bài thi! Đã lưu kết quả: " + score + "/" + questionList.size(),
+                        Toast.LENGTH_LONG).show();
+                finish();  //đóng màn hình làm bài, quay về trang chính
+            });
+        });
     }
 
 }

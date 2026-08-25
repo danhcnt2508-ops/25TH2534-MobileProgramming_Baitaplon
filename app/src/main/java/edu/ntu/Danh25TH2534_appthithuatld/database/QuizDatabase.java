@@ -23,6 +23,7 @@ public abstract class QuizDatabase extends RoomDatabase {
     private static QuizDatabase instance;
     public abstract QuestionDao questionDao();
     public abstract CategoryDao categoryDao(); //đã bổ sung sau khi tạo thêm file CategoryDao.java
+    public abstract ExamHistoryDao examHistoryDao(); //khai báo bổ sung sau khi tạo thêm file ExamHistoryDao.java
 
     // Tạo luồng phụ để xử lý database ngầm, thay thế cho allowMainThreadQueries()
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
