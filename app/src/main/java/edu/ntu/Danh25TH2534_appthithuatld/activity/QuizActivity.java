@@ -155,6 +155,14 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    //hàm hủy đồng hồ
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
     private void saveExamHistory() {
         //3.1 lấy ngày giờ hiện tại của hệ thống để lưu vào lịch sử
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
