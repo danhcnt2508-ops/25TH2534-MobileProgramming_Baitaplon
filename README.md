@@ -1,1 +1,153 @@
-\# 🛡️ Ứng Dụng Thi Trắc Nghiệm An Toàn Lao Động!\[Android Version](https://shields.io)!\[Language](https://shields.io)!\[IDE](https://shields.io)Một ứng dụng di động hỗ trợ học tập và ôn luyện kiến thức về \*\*An toàn vệ sinh lao động\*\*. Ứng dụng giúp người lao động và sinh viên dễ dàng hệ thống hóa kiến thức, tự kiểm tra năng lực và giảm thiểu rủi ro tai nạn trong môi trường làm việc.\---\## 🚀 Tính Năng ChínhỨng dụng tập trung vào trải nghiệm mượt mà với 2 chức năng cốt lõi:\### 1. 📝 Chức Năng "Thi Thử"\* \*\*Đề thi ngẫu nhiên:\*\* Tự động trộn câu hỏi và đáp án từ ngân hàng đề để đảm bảo tính khách quan.\* \*\*Đồng hồ đếm ngược:\*\* Giới hạn thời gian làm bài giống như thi thật.\* \*\*Chấm điểm tự động:\*\* Hiển thị kết quả ngay sau khi nộp bài kèm lời giải chi tiết (nếu có).\### 2. 📜 Chức Năng "Xem Lịch Sử Thi"\* \*\*Lưu kết quả:\*\* Ghi lại điểm số, ngày giờ thi và thời gian hoàn thành của các lượt thi trước.\* \*\*Xem lại bài thi:\*\* Cho phép người dùng mở lại các đề đã làm để xem mình đã sai ở những câu nào và đáp án đúng là gì.\---\## 📸 Giao Diện Ứng Dụng (Screenshots)| Màn hình chính \& Thi thử | Lịch sử làm bài || :---: | :---: || <img src="screenshots/quiz\_screen.png" width="280" alt="Màn hình Thi Thử"> | <img src="screenshots/history\_screen.png" width="280" alt="Màn hình Lịch Sử"> |\*(Mẹo: Hãy tạo thư mục `screenshots` trong dự án, chụp ảnh màn hình điện thoại, đổi tên thành `quiz\_screen.png` và `history\_screen.png` rồi bỏ vào đó để hình ảnh hiển thị lên đây)\*\---\## 🛠️ Công Nghệ Sử Dụng (Tech Stack)\* \*\*Ngôn ngữ:\*\* \[Java]\* \*\*Giao diện:\*\* XML / Jetpack Compose\* \*\*Cơ sở dữ liệu lưu trữ (Câu hỏi \& Lịch sử):\*\* SQLite / Room Database\* \*\*Kiến trúc phần mềm:\*\* MVVM (Model-View-ViewModel)\---\## ⚙️ Hướng Dẫn Cài Đặt \& Chạy Dự ÁnĐể chạy dự án này trên máy tính của bạn, hãy làm theo các bước sau:\### 1. Yêu cầu hệ thống\* Android Studio (hoặc phiên bản mới nhất)\* Gradle bản mới nhất\* Thiết bị giả lập (Emulator) hoặc điện thoại thật chạy Android 8.0 trở lên.\### 2. Các bước thực hiệnMở Terminal trên máy tính và chạy lệnh sau để clone (tải) dự án về:```bashgit clone https://github.com\[Tài-khoản-GitHub-của-bạn]/\[Tên-Kho-Lưu-Trữ].git```1\. Mở \*\*Android Studio\*\*.2\. Chọn \*\*File > Open\*\* và tìm đến thư mục vừa tải về.3\. Đợi Android Studio đồng bộ Gradle (quá trình này mất 1-3 phút tùy tốc độ mạng).4\. Nhấn nút \*\*Run (Hình tam giác màu xanh)\*\* để chạy ứng dụng trên thiết bị của bạn.\---\## 👨‍💻 Thông Tin Tác Giả\* \*\*Họ và tên:\*\* Trần Mộng Danh\* \*\*Email:\*\* danhcnt2508@gmail.com\* \*\*Trường/Đơn vị:\*\* Trường Đại học Nha Trang\* \*\*Khoa: \*\* Công nghệ thông tin\---
+TEST THỬ CÁC LÀM FILE README
+\# 🛡️ Ứng Dụng Thi Trắc Nghiệm An Toàn Lao Động
+
+
+
+!\[Android Version](https://shields.io)
+
+!\[Language](https://shields.io)
+
+!\[IDE](https://shields.io)
+
+
+
+Một ứng dụng di động hỗ trợ học tập và ôn luyện kiến thức về \*\*An toàn vệ sinh lao động\*\*. Ứng dụng giúp người lao động và sinh viên dễ dàng hệ thống hóa kiến thức, tự kiểm tra năng lực và giảm thiểu rủi ro tai nạn trong môi trường làm việc.
+
+
+
+\---
+
+
+
+\## 🚀 Tính Năng Chính
+
+
+
+Ứng dụng tập trung vào trải nghiệm mượt mà với 2 chức năng cốt lõi:
+
+
+
+\### 1. 📝 Chức Năng "Thi Thử"
+
+\* \*\*Đề thi ngẫu nhiên:\*\* Tự động trộn câu hỏi và đáp án từ ngân hàng đề để đảm bảo tính khách quan.
+
+\* \*\*Đồng hồ đếm ngược:\*\* Giới hạn thời gian làm bài giống như thi thật.
+
+\* \*\*Chấm điểm tự động:\*\* Hiển thị kết quả ngay sau khi nộp bài kèm lời giải chi tiết (nếu có).
+
+
+
+\### 2. 📜 Chức Năng "Xem Lịch Sử Thi"
+
+\* \*\*Lưu kết quả:\*\* Ghi lại điểm số, ngày giờ thi và thời gian hoàn thành của các lượt thi trước.
+
+\* \*\*Xem lại bài thi:\*\* Cho phép người dùng mở lại các đề đã làm để xem mình đã sai ở những câu nào và đáp án đúng là gì.
+
+
+
+\---
+
+
+
+\## 📸 Giao Diện Ứng Dụng (Screenshots)
+
+
+
+| Màn hình chính \& Thi thử | Lịch sử làm bài |
+
+| :---: | :---: |
+
+| <img src="screenshots/quiz\_screen.png" width="280" alt="Màn hình Thi Thử"> | <img src="screenshots/history\_screen.png" width="280" alt="Màn hình Lịch Sử"> |
+
+
+
+\*(Mẹo: Hãy tạo thư mục `screenshots` trong dự án, chụp ảnh màn hình điện thoại, đổi tên thành `quiz\_screen.png` và `history\_screen.png` rồi bỏ vào đó để hình ảnh hiển thị lên đây)\*
+
+
+
+\---
+
+
+
+\## 🛠️ Công Nghệ Sử Dụng (Tech Stack)
+
+
+
+\* \*\*Ngôn ngữ:\*\* \[Java]
+
+\* \*\*Giao diện:\*\* XML / Jetpack Compose
+
+\* \*\*Cơ sở dữ liệu lưu trữ (Câu hỏi \& Lịch sử):\*\* SQLite / Room Database
+
+\* \*\*Kiến trúc phần mềm:\*\* MVVM (Model-View-ViewModel)
+
+
+
+\---
+
+
+
+\## ⚙️ Hướng Dẫn Cài Đặt \& Chạy Dự Án
+
+
+
+Để chạy dự án này trên máy tính của bạn, hãy làm theo các bước sau:
+
+
+
+\### 1. Yêu cầu hệ thống
+
+\* Android Studio (hoặc phiên bản mới nhất)
+
+\* Gradle bản mới nhất
+
+\* Thiết bị giả lập (Emulator) hoặc điện thoại thật chạy Android 8.0 trở lên.
+
+
+
+\### 2. Các bước thực hiện
+
+
+
+Mở Terminal trên máy tính và chạy lệnh sau để clone (tải) dự án về:
+
+```bash
+
+git clone https://github.com\[Tài-khoản-GitHub-của-bạn]/\[Tên-Kho-Lưu-Trữ].git
+
+```
+
+
+
+1\. Mở \*\*Android Studio\*\*.
+
+2\. Chọn \*\*File > Open\*\* và tìm đến thư mục vừa tải về.
+
+3\. Đợi Android Studio đồng bộ Gradle (quá trình này mất 1-3 phút tùy tốc độ mạng).
+
+4\. Nhấn nút \*\*Run (Hình tam giác màu xanh)\*\* để chạy ứng dụng trên thiết bị của bạn.
+
+
+
+\---
+
+
+
+\## 👨‍💻 Thông Tin Tác Giả
+
+
+
+\* \*\*Họ và tên:\*\* Trần Mộng Danh
+
+\* \*\*Email:\*\* danhcnt2508@gmail.com
+
+\* \*\*Trường/Đơn vị:\*\* Trường Đại học Nha Trang
+
+\* \*\*Khoa: \*\* Công nghệ thông tin
+
+
+
+\---
+
+
+
