@@ -29,7 +29,21 @@ public class HistoryActivity extends AppCompatActivity {
 
         //gọi cơ sở dữ liệu ngầm bằng luồng phụ databaseWriteExecutỏ
         db = QuizDatabase.getInstance(this);
+
+        //kiểm tra, kích hoạt mũi tên quay lại
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Lịch sử làm bài thi");
+        }
     }
+
+        //Viết thêm hàm  bắt sự kiện khi người dùng click vào mũi tên quay lại
+        @Override
+        public boolean onSupportNavigateUp() {
+            finish();
+            return true;
+        }
+
         //sử dụng onResume
         @Override
         protected void onResume() {
