@@ -11,7 +11,7 @@
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thời gian: 20:00"
+        android:text="Thời gian: 10:00"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"

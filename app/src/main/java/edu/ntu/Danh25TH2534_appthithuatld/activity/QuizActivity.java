@@ -1,5 +1,6 @@
 package edu.ntu.Danh25TH2534_appthithuatld.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
@@ -132,11 +133,6 @@ public class QuizActivity extends AppCompatActivity {
         }.start();
     }
 
-
-    private void saveExamHistory() {
-
-    }
-
     //hàm chuyển đổi ms thành định dạng phút:giây và hiển thị trên TextView tvTimer
     private void updateCountDownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
@@ -144,6 +140,15 @@ public class QuizActivity extends AppCompatActivity {
 
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         tvTimer.setText("Thời gian: " + timeFormatted);
+
+        //thời gian dưới 1 phút, đổi chữ sang màu đỏ
+        if (timeLeftInMillis < 60000) {
+            tvTimer.setTextColor(Color.RED);
+        }
+    }
+
+    private void saveExamHistory() {
+
     }
 
 }
