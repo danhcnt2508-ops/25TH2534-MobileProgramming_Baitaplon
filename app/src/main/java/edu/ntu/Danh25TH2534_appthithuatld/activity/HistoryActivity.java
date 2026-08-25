@@ -17,6 +17,7 @@ import edu.ntu.Danh25TH2534_appthithuatld.model.ExamHistory;
 public class HistoryActivity extends AppCompatActivity {
     private RecyclerView rvHistory;
     private ExamHistoryAdapter adapter;
+    private QuizDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +28,28 @@ public class HistoryActivity extends AppCompatActivity {
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
 
         //gọi cơ sở dữ liệu ngầm bằng luồng phụ databaseWriteExecutỏ
-        QuizDatabase db = QuizDatabase.getInstance(this);
-        QuizDatabase.databaseWriteExecutor.execute(() -> {
-            //lấy toa bộ lịch sử thi
+        db = QuizDatabase.getInstance(this);
+    }
+        //sử dụng onResume
+        @Override
+        protected void onResume() {
+            super.onResume();
+            loadExamHistory();
+        }
+
+        private void loadExamHistory() {
+            QuizDatabase.databaseWriteExecutor.execute(() -> {
+            //Đọc lại toàn bộ danh sách từ SQLite
             List<ExamHistory> historyList = db.examHistoryDao().getAllHistory();
 
-            //quay lại luồng giao diện chính để hiển thị dữ liệu lên RecycleView
+            //cập nhật lại giao diện luồng chính
             runOnUiThread(() -> {
-                if (historyList != null && historyList.isEmpty()) {
+                if (historyList != null && !historyList.isEmpty()) {
                     adapter = new ExamHistoryAdapter(historyList);
                     rvHistory.setAdapter(adapter);
                 } else {
-                    Toast.makeText(HistoryActivity.this, "Bạn chưa thực hiện bài thi thử nào.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(HistoryActivity.this,
+                            "Bạn chưa thực hiện bài thi thử nào.", Toast.LENGTH_LONG).show();
                 }
             });
         });
