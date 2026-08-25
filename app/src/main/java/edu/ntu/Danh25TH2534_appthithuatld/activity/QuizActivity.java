@@ -1,6 +1,7 @@
 package edu.ntu.Danh25TH2534_appthithuatld.activity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
+import java.util.Locale;
+
 import edu.ntu.Danh25TH2534_appthithuatld.R;
 import edu.ntu.Danh25TH2534_appthithuatld.database.QuizDatabase;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
@@ -18,6 +21,10 @@ public class QuizActivity extends AppCompatActivity {
     private RadioButton rbA, rbB, rbC, rbD;
     private Button btnNext;
     private List<Question> questionList;
+    private TextView tvTimer;
+    private CountDownTimer countDownTimer;
+    private static final long START_TIME_IN_MILLIS = 600000; //10 phút  = 600000ms
+    private long timeLeftInMillis = START_TIME_IN_MILLIS;
     private int currentQuestionIndex = 0;
     private int score = 0;
 
@@ -34,6 +41,7 @@ public class QuizActivity extends AppCompatActivity {
         rbC = findViewById(R.id.rbOptionC);
         rbD = findViewById(R.id.rbOptionD);
         btnNext = findViewById(R.id.btnNext);
+        tvTimer = findViewById(R.id.tvTimer);
 
         //2. Lấy dữ liệu từ Room Database bằng luồng phụ
         QuizDatabase db = QuizDatabase.getInstance(this);
@@ -48,6 +56,7 @@ public class QuizActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (questionList != null && !questionList.isEmpty()) {
                         displayQuestion(currentQuestionIndex);
+                        startTimer();   //Bổ sung hàm đếm ngược
                     } else {
                         Toast.makeText(this, "Ngân hàng câu hỏi trống! hây thêm câu hỏi vào trước.", Toast.LENGTH_LONG).show();
                         finish();
@@ -84,6 +93,7 @@ public class QuizActivity extends AppCompatActivity {
             if (currentQuestionIndex < questionList.size()) {
                 rgOptions.clearCheck();     //Xóa lựa chọn cũ
                 displayQuestion(currentQuestionIndex);
+
             } else {
                 //Kết thúc bài thi và hiển thị kết quả
                 Toast.makeText(QuizActivity.this,"Bạn đã hoàn thành bài kiểm tra với điểm số: " + score +"/" + questionList.size(), Toast.LENGTH_LONG).show();
@@ -102,4 +112,38 @@ public class QuizActivity extends AppCompatActivity {
         rbC.setText(q.getOptionC());
         rbD.setText(q.getOptionD());
     }
+
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long l) {
+                timeLeftInMillis = l;
+                updateCountDownText();
+            }
+            @Override
+            public void onFinish() {
+                timeLeftInMillis = 0;
+                updateCountDownText();
+
+                //Xử lý khi hết giờ
+                Toast.makeText(QuizActivity.this, "Hết giờ làm bài!", Toast.LENGTH_LONG).show();
+                saveExamHistory();
+            }
+        }.start();
+    }
+
+
+    private void saveExamHistory() {
+
+    }
+
+    //hàm chuyển đổi ms thành định dạng phút:giây và hiển thị trên TextView tvTimer
+    private void updateCountDownText() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+
+        String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        tvTimer.setText("Thời gian: " + timeFormatted);
+    }
+
 }
