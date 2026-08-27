@@ -89,6 +89,8 @@ Tại `HistoryActivity.java`, logic tải danh sách dữ liệu lịch sử thi
 ---
 
 ## 📸 Hình ảnh minh họa sản phẩm
--	Giao diện chính
+| Giao diện chính | Chức năng Thi thử | Lịch sử làm bài |
+| :---: | :---: | :---: |
+| <img src="./screenshots/main.png" width="250" alt="Giao diện chính"> | <img src="./screenshots/quiz.png" width="250" alt="Giao diện thi thử"> | <img src="./screenshots/history.png" width="250" alt="Giao diện lịch sử"> |
  
 
