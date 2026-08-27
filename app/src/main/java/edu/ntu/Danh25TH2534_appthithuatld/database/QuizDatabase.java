@@ -16,7 +16,8 @@ import edu.ntu.Danh25TH2534_appthithuatld.model.Category;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
 import edu.ntu.Danh25TH2534_appthithuatld.model.ExamHistory;
 
-@Database(entities = {Question.class, Category.class, ExamHistory.class}, version = 1,exportSchema = false)
+@Database(entities = {Question.class, Category.class, ExamHistory.class}, version = 1,
+        exportSchema = false)
 public abstract class QuizDatabase extends RoomDatabase {
 
     // Biến static lưu trữ instance duy nhất của database

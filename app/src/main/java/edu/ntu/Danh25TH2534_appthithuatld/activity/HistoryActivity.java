@@ -48,7 +48,7 @@ public class HistoryActivity extends AppCompatActivity {
         @Override
         protected void onResume() {
             super.onResume();
-            loadExamHistory();
+            loadExamHistory(); //Tự động quét lại Database mỗi khi màn hình hiển thị
         }
 
         private void loadExamHistory() {

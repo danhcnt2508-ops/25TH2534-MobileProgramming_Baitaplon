@@ -58,13 +58,15 @@ public class QuizActivity extends AppCompatActivity {
                 //đọc dữ liệu từ SQLite ngầm bên dưới
                 questionList = db.questionDao().getRandomExamQuestions();
 
-                //sau khi luồng phụ lấy xong dữ liệu, phải quay về luồng chính (Main Thread) để cập nhật giao diện UI
+                //sau khi luồng phụ lấy xong dữ liệu, phải quay về luồng chính (Main Thread)
+                // để cập nhật giao diện UI
                 runOnUiThread(() -> {
                     if (questionList != null && !questionList.isEmpty()) {
                         displayQuestion(currentQuestionIndex);
                         startTimer();   //Bổ sung hàm đếm ngược
                     } else {
-                        Toast.makeText(this, "Ngân hàng câu hỏi trống! hây thêm câu hỏi vào trước.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Ngân hàng câu hỏi trống! hây thêm câu hỏi vào trước.",
+                                        Toast.LENGTH_LONG).show();
                         finish();
                     }
                 });
@@ -135,7 +137,8 @@ public class QuizActivity extends AppCompatActivity {
                 updateCountDownText();
 
                 //Xử lý khi hết giờ
-                Toast.makeText(QuizActivity.this, "Hết giờ làm bài!", Toast.LENGTH_LONG).show();
+                Toast.makeText(QuizActivity.this, "Hết giờ làm bài!",
+                                Toast.LENGTH_LONG).show();
                 saveExamHistory();
             }
         }.start();
@@ -150,7 +153,7 @@ public class QuizActivity extends AppCompatActivity {
         tvTimer.setText("Thời gian: " + timeFormatted);
 
         //thời gian dưới 1 phút, đổi chữ sang màu đỏ
-        if (timeLeftInMillis < 60000) {
+        if (timeLeftInMillis < 540000) {
             tvTimer.setTextColor(Color.RED);
         }
     }
@@ -165,7 +168,8 @@ public class QuizActivity extends AppCompatActivity {
     }
     private void saveExamHistory() {
         //3.1 lấy ngày giờ hiện tại của hệ thống để lưu vào lịch sử
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
+                Locale.getDefault());
         String currentDateAndTime = sdf.format(new Date());
 
         //3.2 tạo đối tượng ExamHistory mới với điểm số thực tế
@@ -178,7 +182,8 @@ public class QuizActivity extends AppCompatActivity {
             //trở về luồng chính để hiển thị kết quả và đóng màn hình
             runOnUiThread(() -> {
                 Toast.makeText(QuizActivity.this,
-                        "Kết thúc bài thi! Đã lưu kết quả: " + score + "/" + questionList.size(),
+                        "Kết thúc bài thi! Đã lưu kết quả: " + score + "/" +
+                                questionList.size(),
                         Toast.LENGTH_LONG).show();
                 finish();  //đóng màn hình làm bài, quay về trang chính
             });
