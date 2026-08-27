@@ -47,30 +47,40 @@ Hệ thống quản lý cơ sở dữ liệu local thông qua **Room Database** 
 
 ---
 
-## 📁 Cấu trúc thư mục mã nguồn
+## 📁 Cấu trúc thư mục mã nguồn (Chế độ Android View)
+app/
+├── manifests/
+│   └── AndroidManifest.xml             # Cấu hình hệ thống & đăng ký Activity
+├── kotlin+java/
+│   └── edu.ntu.Danh25TH2534_appthithuatld/
+│       ├── activity/
+│       │   ├── HistoryActivity.java    # Điều khiển màn hình Xem lịch sử thi
+│       │   └── QuizActivity.java       # Điều khiển màn hình Làm bài thi
+│       ├── adapter/
+│       │   └── ExamHistoryAdapter.java # Bộ quản lý và ánh xạ dữ liệu danh sách cuộn
+│       ├── database/
+│       │   ├── CategoryDao.java        # Giao tiếp dữ liệu bảng Chủ đề (Categories)
+│       │   ├── DataRepository.java     # Chứa danh sách câu hỏi gốc và xử lý nạp dữ liệu
+│       │   ├── ExamHistoryDao.java     # Giao tiếp dữ liệu bảng Lịch sử (Exam_History)
+│       │   ├── QuestionDao.java        # Giao tiếp dữ liệu bảng Câu hỏi (Questions)
+│       │   └── QuizDatabase.java       # Cổng kết nối trung tâm Room Database
+│       ├── model/
+│       │   ├── Category.java           # Định nghĩa thực thể bảng Categories
+│       │   ├── ExamHistory.java        # Định nghĩa thực thể bảng Exam_History
+│       │   └── Question.java           # Định nghĩa thực thể bảng Questions
+│       └── MainActivity.java           # Điều khiển màn hình chính (Menu điều hướng)
+└── res/
+    ├── drawable/                       # Chứa tài nguyên hình ảnh, icon tĩnh
+    ├── layout/                         # Chứa các file giao diện XML
+    │   ├── activity_history.xml        # Giao diện màn hình danh sách lịch sử (RecyclerView)
+    │   ├── activity_main.xml           # Giao diện menu chính môn học
+    │   ├── activity_quiz.xml           # Giao diện cấu trúc câu hỏi và đồng hồ đếm ngược
+    │   └── item_exam_history.xml       # Giao diện thiết kế cho từng dòng hiển thị kết quả
+    ├── mipmap/                         # Chứa icon ứng dụng theo các độ phân giải
+    ├── values/                         # Chứa tệp cấu hình màu sắc, chuỗi chữ (strings.xml)
+    └── xml/                            # Chứa các cấu hình XML bổ trợ khác
 
-```text
-app/src/main/
-├── java/com/yourpackage/appthithuatld/
-│   ├── MainActivity.java             # Điều khiển màn hình chính (Menu)
-│   ├── model/
-│   │   ├── Question.java             # Thực thể bảng Câu hỏi
-│   │   └── ExamHistory.java          # Thực thể bảng Lịch sử thi
-│   ├── database/
-│   │   ├── QuizDatabase.java         # Cổng kết nối cơ sở dữ liệu Room trung tâm
-│   │   ├── QuestionDao.java          # Giao tiếp truy vấn bảng Câu hỏi
-│   │   ├── ExamHistoryDao.java       # Giao tiếp truy vấn bảng Lịch sử
-│   │   └── DataRepository.java       # Chứa và nạp dữ liệu câu hỏi thực tế
-│   ├── activity/
-│   │   ├── QuizActivity.java         # Xử lý logic màn hình làm bài thi
-│   │   └── HistoryActivity.java      # Xử lý logic màn hình xem lịch sử
-│   └── adapter/
-│       └── ExamHistoryAdapter.java   # Quản lý và ánh xạ dữ liệu vào RecyclerView
-└── res/layout/
-    ├── activity_main.xml             # Giao diện trang chủ
-    ├── activity_quiz.xml              # Giao diện màn hình thi thử
-    ├── activity_history.xml           # Giao diện màn hình lịch sử (RecyclerView)
-    └── item_exam_history.xml         # Thiết kế hiển thị cho từng dòng kết quả
+
 ```
 
 ---
