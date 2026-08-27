@@ -48,6 +48,7 @@ Hệ thống quản lý cơ sở dữ liệu local thông qua **Room Database** 
 ---
 
 ## 📁 Cấu trúc thư mục mã nguồn (Chế độ Android View)
+```text
 app/
 ├── manifests/
 │   └── AndroidManifest.xml             # Cấu hình hệ thống & đăng ký Activity
