@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThiThuATLD">
 
-        <!--Màn hình chính-->
+        <!-- Màn hình chính -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,11 +27,14 @@
         <!-- Màn hình làm bài trắc nghiệm -->
         <activity
             android:name=".activity.QuizActivity"
-            android:exported="false"/>
-
-        <activity android:name=".activity.HistoryActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
+        <activity
+            android:name=".activity.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PracticeQuizActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
