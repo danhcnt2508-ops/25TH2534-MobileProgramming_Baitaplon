@@ -81,8 +81,34 @@
             android:textSize="16sp"/>
     </RadioGroup>
 
+    <!--Khu vực nút bấm điều hướng: Kiểm tra đáp án/Hoàn thành bài luyện tập-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp">
 
+        <!--nút kiểm tra-->
+        <Button
+            android:id="@+id/btnCheck"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Kiểm tra áp án"
+            android:textSize="16sp"
+            android:backgroundTint="#00796B"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
 
-
-
+        <!--nút hoàn thành-->
+        <Button
+            android:id="@+id/btnFinish"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Hoàn thành bài luyện tập"
+            android:textSize="16sp"
+            android:backgroundTint="#D32F2F"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
