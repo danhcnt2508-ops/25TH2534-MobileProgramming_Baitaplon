@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
         android:text="Ứng dụng luyện tập trắc nghiệm"
         android:textAlignment="center"
         android:textColor="#0225F8"
@@ -53,10 +54,22 @@
         android:text="Bắt đầu thi thử"
         android:textSize="18sp"
         android:textStyle="bold"
-
-
         app:cornerRadius="12dp"
         app:icon="@android:drawable/ic_media_play" />
+
+    <!--Bổ sung nút Luyện tập-->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPracticeQuiz"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Luyện tập"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:icon="@android:drawable/ic_media_play"
+        app:backgroundTint="#00796B"
+        android:layout_marginBottom="16dp"
+        app:cornerRadius="12dp"
+    />
     <!-- Nút xem lịch sử làm bài-->
     <Button
         android:id="@+id/btnHistory"
@@ -70,6 +83,5 @@
         app:cornerRadius="12dp"
         app:icon="@android:drawable/ic_media_play" />
         <!--style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-
-
+    
 </LinearLayout>
