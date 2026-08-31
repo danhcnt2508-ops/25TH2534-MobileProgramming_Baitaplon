@@ -81,6 +81,21 @@
             android:textSize="16sp"/>
     </RadioGroup>
 
+    <!--Thanh chỉ dẫn vuốt (chỉ hiện ra sau khi bấm nút Kiểm tra đáp án)-->
+    <TextView
+        android:id="@+id/tvSwipeHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&#9664; Vuốt sang trái để chuyển câu tiếp theo"
+        android:textColor="#757575"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgOptions" />
+
     <!--Khu vực nút bấm điều hướng: Kiểm tra đáp án/Hoàn thành bài luyện tập-->
     <LinearLayout
         android:layout_width="match_parent"
