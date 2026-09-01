@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#F5F7FA">
+    android:background="#F5F7FA"
+    tools:context=".activity.PracticeQuizActivity">
 
     <!--Phần hiển thị tiến độ làm bài-->
     <TextView
@@ -20,6 +21,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
+
+    <!-- Nội dung câu hỏi -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardQuestion"
         android:layout_width="match_parent"
