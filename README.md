@@ -7,6 +7,7 @@
 ## 🚀 Tính năng chính
 
 * **Thi thử (Exam):** Tạo đề thi ngẫu nhiên (20 câu hỏi) kèm đồng hồ đếm ngược (10:00). Tự động nộp bài và khóa khi hết giờ.
+* **Luyện tập (Practice):** Luyện tập các câu hỏi trắc nghiệm trong ngân hàng câu hỏi (đang cập nhật)
 * **Lịch sử làm bài:** Lưu trữ kết quả thi (điểm số, tổng số câu, ngày giờ làm bài) để người dùng dễ dàng theo dõi tiến độ.
 
 ---
