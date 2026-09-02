@@ -28,10 +28,9 @@ public class ExamHistoryAdapter extends RecyclerView.Adapter<ExamHistoryAdapter.
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         ExamHistory history = historyList.get(position);   // Lấy bản ghi theo vị trí dòng
-
         // Đổ text vào các Widget TextView tương ứng trên giao diện item
         holder.tvScore.setText("Điểm số: " + history.getScore() + "/" + history.getTotalQuestions());
-        holder.tvDate.setText("Ngày thi; " + history.getDateTaken());
+        holder.tvDate.setText("Ngày thi: " + history.getDateTaken());
     }
 
     @Override

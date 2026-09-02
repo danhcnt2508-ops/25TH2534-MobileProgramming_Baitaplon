@@ -177,7 +177,6 @@ public class PracticeQuizActivity extends AppCompatActivity {
     private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
         private static final int SWIPE_THRESHOLD = 100; // Khoảng cách tối thiểu của cú vuốt tính bằng Pixel
         private static final int SWIPE_VELOCITY_THRESHOLD = 100; // Tốc độ vuốt tối thiểu
-
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (e1 == null || e2 == null) return false;
@@ -198,7 +197,8 @@ public class PracticeQuizActivity extends AppCompatActivity {
         // Xử lý khi phát hiện hành động vuốt sang trái thành công
         private void onSwipeLeft() {
             if (!isAnswerChecked) {
-                Toast.makeText(this, "Bạn phải bấm nút kiểm tra đáp án trước khi qua câu mới", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bạn phải bấm nút kiểm tra đáp án trước khi qua câu mới",
+                                Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -221,10 +221,12 @@ public class PracticeQuizActivity extends AppCompatActivity {
         rbC.setTextColor(defaultColor);
         rbD.setTextColor(defaultColor);
     }
-    //bổ sung hàm:
+    //bổ sung hàm:dispatchTouchEvent
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        // 1. Gửi dữ liệu tọa độ chạm vào bộ nhận diện cử chỉ vuốt
         gestureDetector.onTouchEvent(ev);
+        // 2. Giữ nguyên để các nút bấm con (RadioButton, Button) vẫn nhận được sự kiện Click
         return super.dispatchTouchEvent(ev);
     }
 

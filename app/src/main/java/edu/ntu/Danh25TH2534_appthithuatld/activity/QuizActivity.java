@@ -21,7 +21,7 @@ import edu.ntu.Danh25TH2534_appthithuatld.model.ExamHistory;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
 
 public class QuizActivity extends AppCompatActivity {
-    private TextView tvQuestionText;
+    private TextView tvQuestionText, tvProgress;
     private RadioGroup rgOptions;
     private RadioButton rbA, rbB, rbC, rbD;
     private Button btnNext;
@@ -41,6 +41,7 @@ public class QuizActivity extends AppCompatActivity {
 
         //1. Ánh xạ các thành phần trên giao diện
         tvQuestionText = findViewById(R.id.tvQuestionText);
+        tvProgress = findViewById(R.id.tvProgress);
         rgOptions = findViewById(R.id.rgOptions);
         rbA = findViewById(R.id.rbOptionA);
         rbB = findViewById(R.id.rbOptionB);
@@ -116,6 +117,7 @@ public class QuizActivity extends AppCompatActivity {
     private void displayQuestion(int index) {
         Question q = questionList.get(index);
         //Sử dụng các hàm getter công khai (.getQuestionText, .getOptionA,...) để lấy dữ liệu an toàn
+        tvProgress.setText("Tiến độ: " + (index + 1) + "/" + questionList.size());
         tvQuestionText.setText("Câu " + (index + 1) + ": " + q.getQuestionText());
         rbA.setText(q.getOptionA());
         rbB.setText(q.getOptionB());
@@ -152,8 +154,8 @@ public class QuizActivity extends AppCompatActivity {
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         tvTimer.setText("Thời gian: " + timeFormatted);
 
-        //thời gian dưới 1 phút, đổi chữ sang màu đỏ
-        if (timeLeftInMillis < 540000) {
+        //thời gian dưới 2 phút, đổi chữ sang màu đỏ
+        if (timeLeftInMillis < 120000) {
             tvTimer.setTextColor(Color.RED);
         }
     }
@@ -171,10 +173,8 @@ public class QuizActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
                 Locale.getDefault());
         String currentDateAndTime = sdf.format(new Date());
-
         //3.2 tạo đối tượng ExamHistory mới với điểm số thực tế
         ExamHistory history = new ExamHistory(score, questionList.size(), currentDateAndTime);
-
         //3.3 dùng luồng phụ databaseWriteExecutor để lưu ngầm dữ liệu
         QuizDatabase.databaseWriteExecutor.execute(() -> {
             //ghi vào SQLite
