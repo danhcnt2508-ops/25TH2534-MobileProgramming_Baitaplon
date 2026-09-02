@@ -19,10 +19,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import edu.ntu.Danh25TH2534_appthithuatld.R;
 import edu.ntu.Danh25TH2534_appthithuatld.database.QuizDatabase;
+import edu.ntu.Danh25TH2534_appthithuatld.model.ExamHistory;
 import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
 
 public class PracticeQuizActivity extends AppCompatActivity {
@@ -108,7 +112,7 @@ public class PracticeQuizActivity extends AppCompatActivity {
                 selectedRb.setTextColor(Color.parseColor("#2E7D32"));
             } else {
                 selectedRb.setTextColor(Color.parseColor("#C62828"));
-                highlightCorrecOption(correctOption);  //tô xanh đáp án đúng
+                highlightCorrectOption(correctOption);  //tô xanh đáp án đúng
             }
 
             setOptionsEnabled(false);  //khóa click chọn la
@@ -123,22 +127,49 @@ public class PracticeQuizActivity extends AppCompatActivity {
             }
         });
 
-        //5.
-
-
-
-
-
+        //5. Xử lý sự kiện nút Hoàn thành
+        btnFinish.setOnClickListener(v -> saveExamHistoryAndFinish());
     }
 
-    private void setOptionsEnabled(boolean b) {
+    private void saveExamHistoryAndFinish() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        String currentDateAndTime = sdf.format(new Date());
+
+        ExamHistory history = new ExamHistory(score, questionList.size(), currentDateAndTime);
+
+        QuizDatabase.databaseWriteExecutor.execute(() -> {
+            db.examHistoryDao().insertHistory(history);
+            runOnUiThread(() -> {
+                Toast.makeText(PracticeQuizActivity.this, "Đã hoàn thành! Điểm số luyện tập"
+                                + score + "/" + questionList.size(), Toast.LENGTH_LONG).show();
+                finish();  //trở về trang chủ
+            });
+        });
     }
 
-    private void highlightCorrecOption(int correctOption) {
+    private void setOptionsEnabled(boolean enabled) {
+        rbA.setEnabled(enabled);
+        rbB.setEnabled(enabled);
+        rbC.setEnabled(enabled);
+        rbD.setEnabled(enabled);
     }
 
-    private void displayQuestion(int currentQuestionIndex) {
+    private void highlightCorrectOption(int correctOption) {
+        switch (correctOption) {
+            case 1: rbA.setTextColor(Color.parseColor("#2E7D32")); break;
+            case 2: rbB.setTextColor(Color.parseColor("#2E7D32")); break;
+            case 3: rbC.setTextColor(Color.parseColor("#2E7D32")); break;
+            case 4: rbD.setTextColor(Color.parseColor("#2E7D32")); break;
+        }
+    }
 
+    private void displayQuestion(int index) {
+       Question q = questionList.get(index);
+       tvProgress.setText("Tiến độ: " + (index + 1) + "/" + questionList.size());
+       tvQuestionText.setText("Câu " + (index + 1) + q.getQuestionText());
+       rbA.setText(q.getOptionA());
+       rbB.setText(q.getOptionB());
+       rbC.setText(q.getOptionC());
     }
 
     // Lớp nội bộ định nghĩa hành vi vuốt cử chỉ cử động
@@ -178,5 +209,16 @@ public class PracticeQuizActivity extends AppCompatActivity {
             }
         }
 
-
+    private void resetButtonColor() {
+        int defaultColor = Color.BLACK;
+        rbA.setTextColor(defaultColor);
+        rbB.setTextColor(defaultColor);
+        rbC.setTextColor(defaultColor);
+        rbD.setTextColor(defaultColor);
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }
