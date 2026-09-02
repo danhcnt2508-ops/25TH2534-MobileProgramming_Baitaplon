@@ -74,7 +74,7 @@ public class PracticeQuizActivity extends AppCompatActivity {
         View.OnTouchListener touchListener = (v, event)
                                                 -> gestureDetector.onTouchEvent(event);
         //đăng ký nhận diện vuốt trên toàn vùng không gian màn hình nền
-        layoutRoot.setOnTouchListener(touchListener);
+        //layoutRoot.setOnTouchListener(touchListener); tạm xóa dòng lệnh này
 
         //3. Tải câu hỏi ngẫu nhiên từ SQLite bằng luồng phụ
         db = QuizDatabase.getInstance(this);
@@ -170,6 +170,7 @@ public class PracticeQuizActivity extends AppCompatActivity {
        rbA.setText(q.getOptionA());
        rbB.setText(q.getOptionB());
        rbC.setText(q.getOptionC());
+       rbD.setText(q.getOptionD());
     }
 
     // Lớp nội bộ định nghĩa hành vi vuốt cử chỉ cử động
@@ -182,10 +183,14 @@ public class PracticeQuizActivity extends AppCompatActivity {
             if (e1 == null || e2 == null) return false;
 
             float diffX = e2.getX() - e1.getX();
+            float diffY = e2.getY() - e1.getY();
             // Nếu khoảng cách kéo từ phải qua trái đủ lớn và tốc độ đủ nhanh
-            if (diffX < -SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                onSwipeLeft();
-                return true;
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX < -SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    onSwipeLeft();
+                    return true;
+                }
             }
             return false;
         }
@@ -216,6 +221,14 @@ public class PracticeQuizActivity extends AppCompatActivity {
         rbC.setTextColor(defaultColor);
         rbD.setTextColor(defaultColor);
     }
+    //bổ sung hàm:
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        gestureDetector.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
+    }
+
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();

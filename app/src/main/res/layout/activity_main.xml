@@ -68,8 +68,7 @@
         app:icon="@android:drawable/ic_media_play"
         app:backgroundTint="#00796B"
         android:layout_marginBottom="16dp"
-        app:cornerRadius="12dp"
-    />
+        app:cornerRadius="12dp" />
     <!-- Nút xem lịch sử làm bài-->
     <Button
         android:id="@+id/btnHistory"
