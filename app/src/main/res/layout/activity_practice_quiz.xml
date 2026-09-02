@@ -14,12 +14,13 @@
         android:id="@+id/tvProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Tiến độ: 1/30"
+        android:textColor="#00796B"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="#00796B"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <!-- Nội dung câu hỏi -->

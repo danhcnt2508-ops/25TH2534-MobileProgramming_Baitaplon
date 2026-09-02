@@ -166,7 +166,7 @@ public class PracticeQuizActivity extends AppCompatActivity {
     private void displayQuestion(int index) {
        Question q = questionList.get(index);
        tvProgress.setText("Tiến độ: " + (index + 1) + "/" + questionList.size());
-       tvQuestionText.setText("Câu " + (index + 1) + q.getQuestionText());
+       tvQuestionText.setText("Câu " + (index + 1) + ": " + q.getQuestionText());
        rbA.setText(q.getOptionA());
        rbB.setText(q.getOptionB());
        rbC.setText(q.getOptionC());
