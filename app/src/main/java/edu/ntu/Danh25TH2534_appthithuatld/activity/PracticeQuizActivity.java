@@ -1,5 +1,7 @@
 package edu.ntu.Danh25TH2534_appthithuatld.activity;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +19,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
+
 import edu.ntu.Danh25TH2534_appthithuatld.R;
+import edu.ntu.Danh25TH2534_appthithuatld.database.QuizDatabase;
+import edu.ntu.Danh25TH2534_appthithuatld.model.Question;
 
 public class PracticeQuizActivity extends AppCompatActivity {
 
@@ -25,8 +32,14 @@ public class PracticeQuizActivity extends AppCompatActivity {
     private RadioButton rbA, rbB, rbC, rbD;
     private ConstraintLayout layoutRoot;
     private Button btnCheck, btnFinish;
+    private List<Question> questionList;
+    private int currentQuestionIndex = 0;
+    private int score = 0;
+    private boolean isAnswerChecked = false; // Trạng thái đã kiểm tra đáp án chưa
+    private QuizDatabase db;
     private GestureDetector gestureDetector;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +67,77 @@ public class PracticeQuizActivity extends AppCompatActivity {
 
         //2. Khởi tạo bộ lắng nghe cử chỉ vuốt màn hình
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
-        View.OnTouchListener touchListener = (v, event) -> gestureDetector.onTouchEvent(event);
+        View.OnTouchListener touchListener = (v, event)
+                                                -> gestureDetector.onTouchEvent(event);
+        //đăng ký nhận diện vuốt trên toàn vùng không gian màn hình nền
+        layoutRoot.setOnTouchListener(touchListener);
+
+        //3. Tải câu hỏi ngẫu nhiên từ SQLite bằng luồng phụ
+        db = QuizDatabase.getInstance(this);
+        QuizDatabase.databaseWriteExecutor.execute(() -> {
+            questionList = db.questionDao().getRandomExamQuestions();
+            runOnUiThread(() -> {
+                if (questionList != null && !questionList.isEmpty()) {
+                    displayQuestion(currentQuestionIndex);
+                } else {
+                    Toast.makeText(this, "Ngân hàng câu hỏi trống", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+        });
+
+        //4. Xử lý sự kiện nút "Kiểm tra đáp án"
+        btnCheck.setOnClickListener(v -> {
+            int selectedId = rgOptions.getCheckedRadioButtonId();
+            if (selectedId == -1) {
+                Toast.makeText(this, "Vui lòng chọn 1 đáp án trước.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int answerOrder = 1;
+            RadioButton selectedRb = findViewById(selectedId);
+            if (selectedId == R.id.rbOptionB) answerOrder = 2;
+            else if (selectedId == R.id.rbOptionC) answerOrder = 3;
+            else if (selectedId == R.id.rbOptionD) answerOrder = 4;
+
+            int correctOption = questionList.get(currentQuestionIndex).getCorrectOption();
+
+            //Thực hiện chuyển đổi màu sắc văn bản
+            if (answerOrder == correctOption) {
+                score++;
+                selectedRb.setTextColor(Color.parseColor("#2E7D32"));
+            } else {
+                selectedRb.setTextColor(Color.parseColor("#C62828"));
+                highlightCorrecOption(correctOption);  //tô xanh đáp án đúng
+            }
+
+            setOptionsEnabled(false);  //khóa click chọn la
+            isAnswerChecked = true;
+            btnCheck.setEnabled(false);   //vô hiệu hóa nút kiểm tra, bắt buộc phải vuốt hoặc kết thúc
+            tvSwipeHint.setVisibility(View.VISIBLE);   // Hiện chỉ dẫn vuốt
+
+            // Nếu đây là câu hỏi cuối cùng, hiển thị ngay nút hoàn thành bài thi
+            if (currentQuestionIndex == questionList.size() - 1) {
+                btnFinish.setVisibility(View.VISIBLE);
+                tvSwipeHint.setText("Đã hết câu hỏi, bấm hoàn thành bên dưới");
+            }
+        });
+
+        //5.
 
 
 
 
 
+    }
+
+    private void setOptionsEnabled(boolean b) {
+    }
+
+    private void highlightCorrecOption(int correctOption) {
+    }
+
+    private void displayQuestion(int currentQuestionIndex) {
 
     }
 
@@ -80,9 +158,25 @@ public class PracticeQuizActivity extends AppCompatActivity {
             }
             return false;
         }
-
-        private void onSwipeLeft() {
-        }
     }
+        // Xử lý khi phát hiện hành động vuốt sang trái thành công
+        private void onSwipeLeft() {
+            if (!isAnswerChecked) {
+                Toast.makeText(this, "Bạn phải bấm nút kiểm tra đáp án trước khi qua câu mới", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (currentQuestionIndex < questionList.size() - 1) {
+                currentQuestionIndex++;
+                isAnswerChecked = false;
+                btnCheck.setEnabled(true);
+                tvSwipeHint.setVisibility(View.INVISIBLE);
+                rgOptions.clearCheck();
+                setOptionsEnabled(true);
+                resetButtonColor();
+                displayQuestion(currentQuestionIndex);
+            }
+        }
+
 
 }
