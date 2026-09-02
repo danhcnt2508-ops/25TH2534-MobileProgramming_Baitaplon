@@ -7,7 +7,7 @@
 ## 🚀 Tính năng chính
 
 * **Thi thử (Exam):** Tạo đề thi ngẫu nhiên (20 câu hỏi) kèm đồng hồ đếm ngược (10:00). Tự động nộp bài và khóa khi hết giờ.
-* **Luyện tập (Practice):** Luyện tập các câu hỏi trắc nghiệm trong ngân hàng câu hỏi (đang cập nhật)
+* **Luyện tập (Practice):** Chế độ ôn tập không giới hạn thời gian, hỗ trợ kiểm tra đáp án trực quan theo thời gian thực (đổi màu lựa chọn Đúng/Sai). Chuyển câu hỏi bằng cử chỉ vuốt sang trái (Swipe Left).
 * **Lịch sử làm bài:** Lưu trữ kết quả thi (điểm số, tổng số câu, ngày giờ làm bài) để người dùng dễ dàng theo dõi tiến độ.
 
 ---
@@ -17,14 +17,14 @@
 * **Môi trường:** Android Studio Quail2 | AVD Pixel 7 (Android 13.0 - API 33).
 * **Ngôn ngữ:** Java (JDK 21) | XML.
 * **Cơ sở dữ liệu:** SQLite | Room Persistence Library.
-* **UI/UX:** Google Material Design Components.
-* **Đa luồng:** Java Concurrency (ExecutorService / ThreadPool).
+* **Giao diện (UI/UX):** Google Material Design Components.
+* **Đa luồng và cử chỉ:** Java Concurrency (ExecutorService / ThreadPool) | GestureDetector Component.
 
 ---
 
 ## 📊 Kiến trúc Dữ liệu (SQLite)
 
-Hệ thống quản lý cơ sở dữ liệu local thông qua **Room Database** gồm 3 bảng chính:
+Hệ thống quản lý cơ sở dữ liệu local thông qua **Room Database** gồm 3 bảng thực thể:
 
 ### 1. Bảng `Categories` (Chủ đề học tập)
 * `id` (INTEGER, PK, AutoIncrement): Mã chủ đề.
@@ -57,6 +57,7 @@ app/
 │   └── edu.ntu.Danh25TH2534_appthithuatld/
 │       ├── activity/
 │       │   ├── HistoryActivity.java    # Điều khiển màn hình Xem lịch sử thi
+│       │   ├── PracticeQuizActivity.java # Xử lý chức năng luyện tập & cử chỉ vuốt
 │       │   └── QuizActivity.java       # Điều khiển màn hình Làm bài thi
 │       ├── adapter/
 │       │   └── ExamHistoryAdapter.java # Bộ quản lý và ánh xạ dữ liệu danh sách cuộn
@@ -76,6 +77,7 @@ app/
     ├── layout/                         # Chứa các file giao diện XML
     │   ├── activity_history.xml        # Giao diện màn hình danh sách lịch sử (RecyclerView)
     │   ├── activity_main.xml           # Giao diện menu chính môn học
+    │   ├── activity_practice_quiz.xml  # Giao diện màn hình luyện tập
     │   ├── activity_quiz.xml           # Giao diện cấu trúc câu hỏi và đồng hồ đếm ngược
     │   └── item_exam_history.xml       # Giao diện thiết kế cho từng dòng hiển thị kết quả
     ├── mipmap/                         # Chứa icon ứng dụng theo các độ phân giải
@@ -87,7 +89,7 @@ app/
 
 ---
 
-## ⚙️ Cơ chế xử lý kỹ thuật nổi bật
+## ⚙️ Cơ chế kỹ thuật & Mã nguồn nổi bật
 
 ### 1. Nạp dữ liệu tự động (Seed Data)
 Sử dụng `roomCallback` trong `QuizDatabase.java` kết hợp với `DataRepository.java`. Hệ thống tự động kích hoạt luồng phụ để nạp toàn bộ ngân hàng câu hỏi vào SQLite trong lần đầu tiên ứng dụng khởi chạy.
@@ -216,12 +218,83 @@ public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
     holder.tvDate.setText("Ngày thi: " + history.getDateTaken());
 }
 ```
+### 9. Bộ nhận diện và đánh chặn cử chỉ vuốt toàn cục (`PracticeQuizActivity.java`)
+Để kích hoạt tương tác vuốt đổi câu hỏi linh hoạt mà không làm mất đi tính năng nhấn chọn của các thành phần con (`RadioButton`, `Button`), hệ thống triển khai kỹ thuật đánh chặn sự kiện chạm toàn màn hình thông qua phương thức `dispatchTouchEvent`:
+```java
+@Override
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    // 1. Chuyển tiếp dữ liệu tọa độ chạm vào bộ nhận diện cử chỉ vuốt
+    gestureDetector.onTouchEvent(ev);
+    // 2. Giữ nguyên luồng sự kiện để các nút bấm con vẫn nhận được sự kiện Click thông thường
+    return super.dispatchTouchEvent(ev);
+}
+```
 
+Mô hình phân tích cử chỉ vuốt sang trái kiểm tra độ lệch khoảng cách kéo và gia tốc vuốt tối thiểu (`onFling`):
+```java
+private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
+    private static final int SWIPE_THRESHOLD = 100;         // Khoảng cách tối thiểu tính bằng Pixel
+    private static final int SWIPE_VELOCITY_THRESHOLD = 100; // Tốc độ vuốt tối thiểu
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        if (e1 == null || e2 == null) return false;
+        
+        float diffX = e2.getX() - e1.getX();
+        float diffY = e2.getY() - e1.getY();
+        
+        // Xác định thao tác kéo theo phương ngang từ phải qua trái
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX < -SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                onSwipeLeft(); // Gọi hàm dịch chỉ mục sang câu tiếp theo
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
+
+### 10. Logic xử lý phản hồi Đúng/Sai và chuyển câu hỏi (`PracticeQuizActivity.java`)
+Khi bấm nút "Kiểm tra đáp án", hệ thống tự động khóa lựa chọn và áp dụng mã màu trực quan: Xanh lục `#2E7D32` (Đúng) và Đỏ `#C62828` (Sai):
+```
+java
+int correctOption = questionList.get(currentQuestionIndex).getCorrectOption();
+
+if (answerOrder == correctOption) {
+    score++;
+    selectedRb.setTextColor(Color.parseColor("#2E7D32"));
+} else {
+    selectedRb.setTextColor(Color.parseColor("#C62828"));
+    highlightCorrectOption(correctOption); // Tô xanh đáp án gốc đúng
+}
+
+setOptionsEnabled(false); // Khóa click chọn lại
+isAnswerChecked = true;
+```
+Khi phát hiện cử chỉ vuốt sang trái hợp lệ, hệ thống kiểm tra điều kiện nghiêm ngặt đảm bảo người dùng đã kiểm tra đáp án câu cũ trước khi tiến sang câu tiếp theo:
+```
+java
+private void onSwipeLeft() {
+    if (!isAnswerChecked) {
+        Toast.makeText(this, "Bạn phải bấm nút kiểm tra đáp án trước khi qua câu mới", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    if (currentQuestionIndex < questionList.size() - 1) {
+    currentQuestionIndex++;isAnswerChecked = false;
+    btnCheck.setEnabled(true);
+    tvSwipeHint.setVisibility(View.INVISIBLE);
+    rgOptions.clearCheck();
+    setOptionsEnabled(true);
+    resetButtonColor();
+    displayQuestion(currentQuestionIndex);}}
+```
 ---
 ## 📸 Hình ảnh minh họa sản phẩm
-| Giao diện chính | Chức năng Thi thử | Lịch sử làm bài |
-| :---: | :---: | :---: |
-| <img src="./screenshots/main.png" width="250" alt="Giao diện chính"> | <img src="./screenshots/quiz.png" width="250" alt="Giao diện thi thử"> | <img src="./screenshots/history.png" width="250" alt="Giao diện lịch sử"> |
+| Giao diện chính | Chức năng Thi thử | Chức năng Luyện tập | Lịch sử làm bài |
+| :---: | :---: |  :---: |:---: |
+| <img src="./screenshots/main.png" width="250" alt="Giao diện chính"> | <img src="./screenshots/quiz.png" width="250" alt="Giao diện thi thử"> | <img src="./screenshots/practice.png" width="250" alt="Giao diện Luyện tập"> | <img src="./screenshots/history.png" width="250" alt="Giao diện lịch sử"> |
  
 ---
 ## 💻 Hướng dẫn cài đặt nhanh (Installation Guide)
